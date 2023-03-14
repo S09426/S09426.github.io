@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="温故而知新" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linux下安装Unity3d时可能会遇到的问题，以及解决方案 | 书虫的个人网站</title>
+<link rel="shortcut icon" href="https://s09426.github.io//favicon.ico?v=1678797537271">
+<link rel="stylesheet" href="https://s09426.github.io//styles/main.css">
+
+
+  <link rel="canonical" href="https://s09426.github.io/post/linux-xia-an-zhuang-unity3d-shi-ke-neng-hui-yu-dao-de-wen-ti-yi-ji-jie-jue-fang-an/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="Debian or Ubuntu
+Installing:
+要在 Debian 或 Ubuntu Linux 发行版上安装 Unity Hub，您需要添加 Unity Hub Debian 存储库以及公共签名密钥，以验证软件包的完整性。
+若要..." />
+  <meta name="referrer" content="always" />
+  
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://s09426.github.io/" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://s09426.github.io//images/avatar.png?v=1678797537271"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> 书虫的个人网站 </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            Linux下安装Unity3d时可能会遇到的问题，以及解决方案
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2023-03-12
+          </time>
+          <span class="read-times">
+            3 min read
+          </span>
+          
+          <a href="https://s09426.github.io/tag/6zMFs-2Eb/" class="post-tags">
+            # Linux
+          </a>
+          
+          <a href="https://s09426.github.io/tag/Pr3JWo5x9/" class="post-tags">
+            # Unity
+          </a>
+          
+        </div>
+        
+        <img src='https://s09426.github.io//post-images/linux-xia-an-zhuang-unity3d-shi-ke-neng-hui-yu-dao-de-wen-ti-yi-ji-jie-jue-fang-an.webp' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <h2 id="debian-or-ubuntu">Debian or Ubuntu</h2>
+<h3 id="installing">Installing:</h3>
+<p>要在 Debian 或 Ubuntu Linux 发行版上安装 Unity Hub，您需要添加 Unity Hub Debian 存储库以及公共签名密钥，以验证软件包的完整性。</p>
+<p>若要安装 UnityHub，需要在  /etc/apt/sources.list 运行以下命令以安装 UnityHub：</p>
+<pre><code>sudo sh -c 'echo &quot;deb https://hub.unity3d.com/linux/repos/deb stable main&quot; &gt; /etc/apt/sources.list.d/unityhub.list'
+</code></pre>
+<p>若要添加公共签名密钥，请运行以下命令：</p>
+<pre><code>wget -qO - https://hub.unity3d.com/linux/keys/public | sudo apt-key add -
+</code></pre>
+<p>然后更新包缓存并使用以下方法安装包：</p>
+<pre><code>sudo apt update
+sudo apt-get install unityhub
+</code></pre>
+<h3 id="卸载unityhub">卸载unityhub:</h3>
+<p>要从系统中删除 UnityHub，请运行以下命令：</p>
+<pre><code>sudo apt-get remove unityhub
+</code></pre>
+<h2 id="unityhub无法启动如何安装unityhub的openssl依赖">UnityHub无法启动，如何安装UnityHub的openssl依赖</h2>
+<p>在启动UnityHub时，在有些Linux发行版上，UnityHub会卡在转圈的界面，这是因为缺少一个依赖，如果在终端中启动unityhub，会看到如下报错</p>
+<pre><code>ERROR: Licensing SDK logging callback is not registered. 
+Please use 'registerLoggingAdapter' function from the SDK to do so.
+</code></pre>
+<p>解决方法：<br>
+升级到 Ubuntu 22 后出现相同的错误<br>
+安装 openssl 1.1 对我不起作用<br>
+安装 libssl1.1 确实有效 -</p>
+<pre><code>wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+sudo dpkg -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+</code></pre>
+<p>libssl1.1  安装完毕后重启电脑，如果不出意外，unityhub就可以使用了</p>
+<h2 id="vscode中没有unity代码提示">VSCode中，没有Unity代码提示</h2>
+<h3 id="tips默认读者已经做了以下几件事情">Tips：默认读者已经做了以下几件事情</h3>
+<pre><code>1.在UnityEditor中，在External Tools中选中了VSCode作为代码编辑器
+2.安装了VSCode的C#拓展
+3.安装了最新的dotnet-sdk(老版本没尝试过，本人使用的是dotnet-6.0-sdk)
+4.安装了mono
+</code></pre>
+<p>在<a href="%22https://gigi.nullneuron.net/gigilabs/using-visual-studio-code-with-unity3d-on-linux/%22">原帖</a>中，给出的解决办法是在C#拓展中搜索设置Use Globle Mono，并将参数修改为always</p>
+<p>但如果你用的是最新版本的C#拓展，那么是没有这个选项的</p>
+<p>我的解决办法是，将C#拓展降级到一年前的版本，这样就可以找到这个选项</p>
+<h2 id="降级方法">降级方法：</h2>
+<p>在插件菜单点击C#拓展右下角小齿轮，选择安装另一个版本，找到一个有着Use Globle Mono设置的版本</p>
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#debian-or-ubuntu">Debian or Ubuntu</a>
+<ul>
+<li><a href="#installing">Installing:</a></li>
+<li><a href="#%E5%8D%B8%E8%BD%BDunityhub">卸载unityhub:</a></li>
+</ul>
+</li>
+<li><a href="#unityhub%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85unityhub%E7%9A%84openssl%E4%BE%9D%E8%B5%96">UnityHub无法启动，如何安装UnityHub的openssl依赖</a></li>
+<li><a href="#vscode%E4%B8%AD%E6%B2%A1%E6%9C%89unity%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA">VSCode中，没有Unity代码提示</a>
+<ul>
+<li><a href="#tips%E9%BB%98%E8%AE%A4%E8%AF%BB%E8%80%85%E5%B7%B2%E7%BB%8F%E5%81%9A%E4%BA%86%E4%BB%A5%E4%B8%8B%E5%87%A0%E4%BB%B6%E4%BA%8B%E6%83%85">Tips：默认读者已经做了以下几件事情</a></li>
+</ul>
+</li>
+<li><a href="#%E9%99%8D%E7%BA%A7%E6%96%B9%E6%B3%95">降级方法：</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://s09426.github.io/post/hello-gridea/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://s09426.github.io/post/ti-gao-unity-kai-fa-xiao-lu-de-fang-fa/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://s09426.github.io//atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>欢迎来到我的个人网站</li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://s09426.github.io//media/scripts/jquery.min.js"></script>
+  <script src="https://s09426.github.io//media/scripts/browser.min.js"></script>
+  <script src="https://s09426.github.io//media/scripts/breakpoints.min.js"></script>
+  <script src="https://s09426.github.io//media/scripts/util.js"></script>
+  <script src="https://s09426.github.io//media/scripts/main.js"></script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>
